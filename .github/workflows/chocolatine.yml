@@ -10,6 +10,7 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v4
-    - name: Message checkout
+    - name: List files
       run: ls -la
+    - name: Compile project
       run: make
