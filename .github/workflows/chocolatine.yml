@@ -19,3 +19,5 @@ jobs:
     - name: Compile project
       run: CC=epiclang make
       timeout-minutes: 2
+    - name: Clean project
+      run: make clean
