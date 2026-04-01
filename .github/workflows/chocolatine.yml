@@ -15,4 +15,5 @@ jobs:
     - name: List files
       run: ls -la
     - name: Compile project
-      run: make
+      run: CC=epiclang make
+      timeout-minutes: 2
