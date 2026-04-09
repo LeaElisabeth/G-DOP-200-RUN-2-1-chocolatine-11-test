@@ -29,6 +29,9 @@ jobs:
       run: make clean
 
     - name: Check executable
-      run: if [ ! -x "EXECUTABLES" ]; then
-        exit 1
-      fi
+      run: |
+        for file in $(echo "$EXECUTABLES" | tr ',' ' ' ); do
+          if [ ! -x "$EXECUTABLES" ]; then
+            exit 1
+          fi
+        done
