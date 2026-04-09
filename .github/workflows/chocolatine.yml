@@ -5,9 +5,10 @@ on:
   pull_request:
 env:
     EXECUTABLES: "my_world"
+    MIRROR_SSH_URL: "https://github.com/EpitechPGE1-2025/G-DOP-200-RUN-2-1-chocolatine-11"
 
 jobs:
-  test:
+  check_compilation_and_coding_style:
     runs-on: ubuntu-latest
     container:
       image: epitechcontent/epitest-docker
@@ -35,3 +36,29 @@ jobs:
             exit 1
           fi
         done
+
+  run_tests:
+    needs: check_compilation_and_coding_style
+    runs-on: ubuntu-latest
+    container:
+      image: epitechcontent/epitest-docker
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Run tests
+      run: make tests_run
+      timeout-minutes: 2
+
+  push_to_mirror:
+    needs: run_tests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Push to mirror
+      uses: pixta-dev/repository-mirroring-action
+      with:
+        ssh-private-key: ${{ secret.SSH_PRIVATE_KEY }}
+        remote-repo: "$MIRROR_SSH_URL"
