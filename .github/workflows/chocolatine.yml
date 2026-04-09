@@ -3,6 +3,11 @@ name: workflow
 on:
   push:
   pull_request:
+env:
+    EXECUTABLES: "my_world"
+if [ ! -x "$file" ]; then
+  exit 1
+fi
 
 jobs:
   test:
@@ -12,12 +17,21 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v4
+
     - name: Coding style check
       run: banana-check-repo
+
     - name: List files
       run: ls -la
+
     - name: Compile project
       run: CC=epiclang make
       timeout-minutes: 2
+
     - name: Clean project
       run: make clean
+
+    - name: Check executable
+    if [ ! -x "$file" ]; then
+      exit 1
+    fi
