@@ -5,9 +5,6 @@ on:
   pull_request:
 env:
     EXECUTABLES: "my_world"
-if [ ! -x "$file" ]; then
-  exit 1
-fi
 
 jobs:
   test:
