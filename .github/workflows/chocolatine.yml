@@ -29,6 +29,6 @@ jobs:
       run: make clean
 
     - name: Check executable
-      if [ ! -x "$file" ]; then
+      run: ${{ ! -x "EXECUTABLES" }; then
         exit 1
       fi
