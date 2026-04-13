@@ -5,7 +5,7 @@ on:
   pull_request:
 env:
     EXECUTABLES: "my_world"
-    MIRROR_SSH_URL: "https://github.com/EpitechPGE1-2025/G-DOP-200-RUN-2-1-chocolatine-11"
+    MIRROR_SSH_URL: "git@github.com:EpitechPGE1-2025/G-DOP-200-RUN-2-1-chocolatine-11.git"
 
 jobs:
   check_compilation_and_coding_style:
@@ -54,11 +54,12 @@ jobs:
     needs: run_tests
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
+    steps:
     - name: Checkout repo
       uses: actions/checkout@v4
 
     - name: Push to mirror
-      uses: pixta-dev/repository-mirroring-action
+      uses: pixta-dev/repository-mirroring-action@v1
       with:
-        ssh-private-key: ${{ secret.SSH_PRIVATE_KEY }}
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         remote-repo: "$MIRROR_SSH_URL"
